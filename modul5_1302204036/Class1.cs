@@ -7,79 +7,87 @@ using System.Diagnostics.Contracts;
 
 namespace modul5_1302204036
 {
-    internal class Class1
+    internal class SayaTubeVideo
     {
-        private string v;
+        private int id;
+        private String title;
+        private int playCount;
 
-        public SayaTubeVideo(string v)
+        public SayaTubeVideo(String title)
         {
-            this.v = v;
-        }
+            Random random = new Random();
+            this.id = random.Next(10000, 99999);
 
-        static void Main(String[] args)
-        {
-            SayaTubeVideo tube = new SayaTubeVideo("tutorial...");
-            tube.PrintVideoDetails();
-            tube.IncreasePlayCount(1);
-            tube.PrintVideoDetails();
-        }
+            Contract.Requires(title != null);
+            Contract.Requires(title.Length > 200);
 
-        private void IncreasePlayCount(int v)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void PrintVideoDetails()
-        {
-            throw new NotImplementedException();
-        }
-
-        public class SayaTubevideo
-        {
-            private int id;
-            private string title;
-            private int playCount;
-
-            public SayaTubevideo(string judul)
+            try
             {
-                //contract no5
-                Contract.Requires(title != null);
-                Contract.Requires(title.Length < 100);
-                Random ids = new Random();
-                this.title = judul;
-                id = ids.Next(0, 100000);
-                this.playCount = 0;
+                if (title.Length > 200) throw new Exception("Panjang title tidak boleh lebih dari 200");
+                this.title = checked(title);
             }
-            public void IncreasePlayCount(int i)
+            catch (Exception e)
             {
-                //trycatch no5
-                try
-                {
-                    if (i >= 10000000) throw new Exception("angka melebihi batas");
-                    playCount = playCount + i;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-                playCount = playCount + i;
+
+                Console.WriteLine(e.Message);
             }
-            public void PrintVideoDetails()
+
+            try
             {
-                Console.WriteLine(this.id);
-                Console.WriteLine(this.title);
-                Console.WriteLine(this.playCount);
+                if (title == "") throw new Exception("Title tidak boleh null");
+                this.title = checked(title);
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine(e.Message);
+            }
+
+
+        }
+        public void IncreasePlayCount(int a)
+        {
+            Contract.Requires(a <= 25000000);
+            try
+            {
+                if (a > 25000000) throw new Exception("Play Count tidak boleh lebih dari 25.000.000");
+                this.playCount += checked(a);
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine(e.Message); ;
+            }
+
+            Contract.Requires(a > 0);
+            try
+            {
+                if (a < 0) throw new Exception("Play Count tidak boleh mines");
+                this.playCount += checked(a);
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine(e.Message); ;
             }
         }
 
-        internal string GetTitle()
+        public int getPlayCount()
         {
-            throw new NotImplementedException();
+            return this.playCount;
         }
 
-        internal int GetPlaycount()
+        public String getTitle()
         {
-            throw new NotImplementedException();
+            return this.title;
+        }
+
+        public void PrintVideoDetails()
+        {
+            Console.WriteLine("ID Video : " + this.id);
+            Console.WriteLine("Title Video : " + this.title);
+            Console.WriteLine("Playcount Video : " + this.playCount);
+            Console.WriteLine();
         }
     }
 }
